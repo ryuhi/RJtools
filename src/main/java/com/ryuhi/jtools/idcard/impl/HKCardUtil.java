@@ -1,6 +1,8 @@
 package com.ryuhi.jtools.idcard.impl;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.ryuhi.jtools.idcard.IdCardInterface;
 import com.ryuhi.jtools.idcard.util.StringUtil;
@@ -16,9 +18,15 @@ public class HKCardUtil  implements IdCardInterface {
 	public static HKCardUtil getInstanceOf() {
 		return instance;
 	}
+	
+	 private static final Pattern hkpattern = Pattern.compile("^[A-Z]{1,2}\\d{6}\\([A0-9]\\)$");
 
 	@Override
 	public boolean check(String idNumber) {
+		Matcher hk = hkpattern.matcher(idNumber);
+		 if (!((idNumber.length() == 8 || idNumber.length() == 9) && hk.find())) {
+			 return false;
+		 }
 		boolean flag = true;
 		String[] range = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
                 "Z"};

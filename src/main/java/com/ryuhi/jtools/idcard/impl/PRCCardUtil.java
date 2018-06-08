@@ -1,5 +1,8 @@
 package com.ryuhi.jtools.idcard.impl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.ryuhi.jtools.idcard.IdCardInterface;
 
 /**
@@ -13,9 +16,15 @@ public class PRCCardUtil  implements IdCardInterface {
 	public static PRCCardUtil getInstanceOf() {
 		return instance;
 	}
+	
+	private static final Pattern prcPattern =	 Pattern.compile("^[1-9]\\d{16}[X0-9]$");
 
 	@Override
 	public boolean check(String idNumber) {
+		Matcher prc = prcPattern.matcher(idNumber);
+		if (!(idNumber.length() == 18 && prc.find())) {
+			return false;
+		}
 		boolean flag = true;
 		String[] arr = idNumber.split("");
 		int sum = 0;
